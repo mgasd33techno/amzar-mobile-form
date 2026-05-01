@@ -18,6 +18,10 @@
       margin: 0 auto;
     }
 
+    h2 {
+      text-align: center;
+    }
+
     input, button {
       width: 100%;
       padding: 14px;
@@ -25,25 +29,32 @@
       font-size: 16px;
       border-radius: 10px;
       border: none;
+      box-sizing: border-box;
     }
 
     input {
       background: #1a1a1a;
-      color: #fff;
+      color: #ffffff;
     }
 
     button {
       background: #d4af37;
-      color: #000;
+      color: #000000;
       font-weight: bold;
       cursor: pointer;
+    }
+
+    #status {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 12px;
     }
   </style>
 </head>
 
 <body>
-<div class="container">
 
+<div class="container">
   <h2>Generate Quotation</h2>
 
   <input id="name" placeholder="Nama penuh">
@@ -54,7 +65,6 @@
   <button onclick="submitForm()">GET QUOTATION</button>
 
   <p id="status"></p>
-
 </div>
 
 <script>
@@ -69,20 +79,15 @@
       "Status Merokok": "Tidak"
     };
 
-    document.getElementById("status").innerText = "Submitting...";
+    document.getElementById("status").innerText = "⏳ Submitting...";
 
-    fetch("https://script.google.com/macros/s/AKfycbxf1kXSFO0pRhkUdVG_eqaLZ6u1Qfq5pAVCpjXvG14srmJcyVU-UbQDz_3sPIQxeIcK/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbw99u5-7IEgF9bPo3aXKtouNAPDoT9LtH2bRuumUCu4_xoT337tmoPyMF7XbO2i9OZH/exec", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(formData)   // ✅ NO headers → NO preflight → NO CORS
     })
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === "OK") {
-        document.getElementById("status").innerText = "✅ Submitted successfully";
-      } else {
-        document.getElementById("status").innerText = data.message;
-      }
+    .then(res => res.text())
+    .then(() => {
+      document.getElementById("status").innerText = "✅ Submitted successfully";
     })
     .catch(() => {
       document.getElementById("status").innerText = "❌ Submission failed";
