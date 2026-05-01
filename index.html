@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generate Quotation</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #f5d27a;
+    }
+
+    .container {
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 12px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+    }
+
+    input {
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+    button {
+      background: #d4af37;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <h2>Generate Quotation</h2>
+
+  <input id="name" placeholder="Nama penuh">
+  <input id="dob" type="date">
+  <input id="phone" placeholder="No Telefon">
+  <input id="job" placeholder="Pekerjaan">
+
+  <button onclick="submitForm()">GET QUOTATION</button>
+
+  <p id="status"></p>
+
+</div>
+
+<script>
+  function submitForm() {
+    const formData = {
+      name: document.getElementById("name").value,
+      dob: document.getElementById("dob").value,
+      phone: document.getElementById("phone").value,
+      job: document.getElementById("job").value,
+      Plan: "Medical",
+      Jantina: "Lelaki",
+      "Status Merokok": "Tidak"
+    };
+
+    document.getElementById("status").innerText = "Submitting...";
+
+    fetch("https://script.google.com/macros/s/AKfycbxTANOgv9eZKIW8udDlDvVDbb27O_kdOU8A8pivmstJKlu6z-xtZngk1NNoAoDkeX7K/exec", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "OK") {
+        document.getElementById("status").innerText = "✅ Submitted successfully";
+      } else {
+        document.getElementById("status").innerText = data.message;
+      }
+    })
+    .catch(() => {
+      document.getElementById("status").innerText = "❌ Submission failed";
+    });
+  }
+</script>
+
+</body>
+</html>
