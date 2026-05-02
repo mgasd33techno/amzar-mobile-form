@@ -6,15 +6,24 @@
   <style>
     * { box-sizing: border-box; }
 
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+
     body {
       font-family: Arial, sans-serif;
       background: #000;
       color: #f5d27a;
       padding: 16px;
-      margin: 0;
     }
 
     .container {
+      width: 100%;
       max-width: 420px;
       margin: 0 auto;
     }
@@ -27,12 +36,38 @@
       box-shadow: 0 0 20px rgba(212,175,55,0.15);
     }
 
-    h2, h3 { color: #d4af37; text-align: center; }
+    .center { text-align: center; }
+
+    h2 {
+      color: #d4af37;
+      margin-bottom: 12px;
+      font-size: 22px;
+    }
+
+    h3 {
+      color: #d4af37;
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+
+    .prudential { color: #c8102e; font-weight: bold; }
+    .bsn { color: #00b3a4; font-weight: bold; }
+
+    .profile-img {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 3px solid #d4af37;
+      object-fit: cover;
+      margin: 14px auto;
+      display: block;
+    }
 
     label {
       font-weight: bold;
       margin-bottom: 6px;
       display: block;
+      font-size: 15px;
     }
 
     .input-box {
@@ -43,7 +78,40 @@
       border-radius: 10px;
       border: 1px solid #333;
       background: #1a1a1a;
-      color: #fff;
+      color: #ffffff;
+    }
+
+    .input-box::placeholder { color: #aaaaaa; }
+
+    input[type="date"] {
+      color: #aaaaaa;
+      color-scheme: dark;
+    }
+
+    .phone-wrapper {
+      display: flex;
+      align-items: center;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+
+    .country-code {
+      padding: 14px 12px;
+      background: #111;
+      color: #ffffff;
+      font-weight: bold;
+      border-right: 1px solid #333;
+    }
+
+    .phone-wrapper input {
+      flex: 1;
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      background: transparent;
+      color: #ffffff;
     }
 
     .btn-group {
@@ -74,10 +142,16 @@
       border-radius: 14px;
       background: linear-gradient(135deg, #d4af37, #f5d27a);
       border: none;
+      font-size: 17px;
       font-weight: bold;
     }
 
-    #status { text-align: center; margin-top: 12px; }
+    #status {
+      margin-top: 16px;
+      text-align: center;
+      font-weight: bold;
+      min-height: 20px;
+    }
   </style>
 </head>
 
@@ -85,49 +159,55 @@
 <div class="container">
 
   <!-- PROFILE -->
-  <div class="card">
+  <div class="card center">
     <h2>MUQMEEN GROUP</h2>
-    <p style="text-align:center;"><strong>Amzar Irfan</strong></p>
-    <p style="text-align:center;">Certified Prudential BSN Takaful Advisor</p>
+    <img class="profile-img">
+    <p><strong>Amzar Irfan (AI Agent)</strong></p>
+    <p>Certified <span class="prudential">Prudential</span> <span class="bsn">BSN</span> Takaful Advisor</p>
   </div>
 
   <!-- FORM -->
-  <div class="card">
+  <div class="card" id="formScreen">
     <h3>Generate Quotation</h3>
 
     <form id="quotationForm">
 
       <label>Plan</label>
       <div class="btn-group">
-        <div class="btn-option" onclick="selectOpt(this,'Medical','Plan')">Medical</div>
-        <div class="btn-option" onclick="selectOpt(this,'Hibah','Plan')">Hibah</div>
+        <div class="btn-option" onclick="pick(this,'Medical','Plan')">Medical</div>
+        <div class="btn-option" onclick="pick(this,'Hibah','Plan')">Hibah</div>
       </div>
 
-      <label>Name</label>
-      <input class="input-box" name="Name" required>
+      <label>Nama Penuh</label>
+      <input name="Name" class="input-box" placeholder="Nama penuh" required>
 
-      <label>Date of Birth</label>
-      <input class="input-box" name="DOB" type="date" required>
+      <label>Tarikh Lahir</label>
+      <input name="DOB" class="input-box" type="date" required>
 
-      <label>Phone Number</label>
-      <input class="input-box" name="Phone Number" required>
+      <label>No Telefon</label>
+      <div class="phone-wrapper">
+        <div class="country-code">+60</div>
+        <input id="phone" class="input-box" style="margin:0">
+      </div>
 
-      <label>Occupation</label>
-      <input class="input-box" name="Occupation" required>
+      <input type="hidden" name="Phone Number">
 
-      <label>Sex</label>
+      <label>Pekerjaan</label>
+      <input name="Occupation" class="input-box" placeholder="Pekerjaan" required>
+
+      <label>Jantina</label>
       <div class="btn-group">
-        <div class="btn-option" onclick="selectOpt(this,'Male','Sex')">Male</div>
-        <div class="btn-option" onclick="selectOpt(this,'Female','Sex')">Female</div>
+        <div class="btn-option" onclick="pick(this,'Male','Sex')">Lelaki</div>
+        <div class="btn-option" onclick="pick(this,'Female','Sex')">Perempuan</div>
       </div>
 
-      <label>Smoker</label>
+      <label>Status Merokok</label>
       <div class="btn-group">
-        <div class="btn-option" onclick="selectOpt(this,'No','Smoker')">No</div>
-        <div class="btn-option" onclick="selectOpt(this,'Yes','Smoker')">Yes</div>
+        <div class="btn-option" onclick="pick(this,'No','Smoker')">Tidak</div>
+        <div class="btn-option" onclick="pick(this,'Yes','Smoker')">Ya</div>
       </div>
 
-      <!-- Hidden inputs to receive button selections -->
+      <!-- hidden fields -->
       <input type="hidden" name="Plan">
       <input type="hidden" name="Sex">
       <input type="hidden" name="Smoker">
@@ -142,15 +222,19 @@
 <script>
   const scriptURL = "https://script.google.com/macros/s/AKfycbyyQBPv7kb-3xjtFi1oNOrnWKE-5re3WaP98eDUpK21LzH-0Epg17eFp9tx59IOC9xs/exec";
 
-  function selectOpt(el, value, field) {
+  function pick(el, value, name) {
     [...el.parentElement.children].forEach(b => b.classList.remove("active"));
     el.classList.add("active");
-    document.querySelector(`input[name="${field}"]`).value = value;
+    document.querySelector(`input[name="${name}"]`).value = value;
   }
 
   document.getElementById("quotationForm").addEventListener("submit", e => {
     e.preventDefault();
-    document.getElementById("status").innerText = "Submitting...";
+
+    const phone = document.getElementById("phone").value.replace(/\s+/g,"").replace(/^0+/,"");
+    document.querySelector('input[name="Phone Number"]').value = "+60" + phone;
+
+    document.getElementById("status").innerText = "⏳ Submitting...";
 
     fetch(scriptURL, {
       method: "POST",
