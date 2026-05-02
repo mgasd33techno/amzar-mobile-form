@@ -1,118 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" contenttitle>  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- ✅ Bootstrap -->
-  <link
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
-
-  <!-- ✅ SweetAlert -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    .form-container {
-      max-width: 500px;
-      margin: auto;
-      margin-top: 50px;
-      padding: 20px;
-      background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #f5d27a;
+      padding: 16px;
+      margin: 0;
     }
+
+    .container {
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #111;
+      padding: 20px;
+      border-radius: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(212,175,55,0.15);
+    }
+
+    h2, h3 { color: #d4af37; text-align: center; }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .input-box {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 16px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #333;
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .btn-option {
+      flex: 1;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #d4af37;
+      text-align: center;
+      cursor: pointer;
+      color: #d4af37;
+    }
+
+    .btn-option.active {
+      background: #d4af37;
+      color: #000;
+      font-weight: bold;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #d4af37, #f5d27a);
+      border: none;
+      font-weight: bold;
+    }
+
+    #status { text-align: center; margin-top: 12px; }
   </style>
 </head>
 
-<body class="bg-light">
+<body>
 <div class="container">
-  <div class="form-container">
-    <h4 class="text-center mb-4">Form Submission to Google Sheet</h4>
 
-    <form id="submit-to-google-sheet">
+  <!-- PROFILE -->
+  <div class="card">
+    <h2>MUQMEEN GROUP</h2>
+    <p style="text-align:center;"><strong>Amzar Irfan</strong></p>
+    <p style="text-align:center;">Certified Prudential BSN Takaful Advisor</p>
+  </div>
 
-      <div class="form-group">
-        <label>Name</label>
-        <input class="form-control" type="text" name="name" required />
+  <!-- FORM -->
+  <div class="card">
+    <h3>Generate Quotation</h3>
+
+    <form id="quotationForm">
+
+      <label>Plan</label>
+      <div class="btn-group">
+        <div class="btn-option" onclick="selectOpt(this,'Medical','Plan')">Medical</div>
+        <div class="btn-option" onclick="selectOpt(this,'Hibah','Plan')">Hibah</div>
       </div>
 
-      <div class="form-group">
-        <label>Email</label>
-        <input class="form-control" type="email" name="email" required />
+      <label>Name</label>
+      <input class="input-box" name="Name" required>
+
+      <label>Date of Birth</label>
+      <input class="input-box" name="DOB" type="date" required>
+
+      <label>Phone Number</label>
+      <input class="input-box" name="Phone Number" required>
+
+      <label>Occupation</label>
+      <input class="input-box" name="Occupation" required>
+
+      <label>Sex</label>
+      <div class="btn-group">
+        <div class="btn-option" onclick="selectOpt(this,'Male','Sex')">Male</div>
+        <div class="btn-option" onclick="selectOpt(this,'Female','Sex')">Female</div>
       </div>
 
-      <div class="form-group">
-        <label>Contact Number</label>
-        <input class="form-control" type="text" name="contact_number" required />
+      <label>Smoker</label>
+      <div class="btn-group">
+        <div class="btn-option" onclick="selectOpt(this,'No','Smoker')">No</div>
+        <div class="btn-option" onclick="selectOpt(this,'Yes','Smoker')">Yes</div>
       </div>
 
-      <div class="form-group">
-        <label>Gender</label>
-        <select class="form-control" name="gender" required>
-          <option value="" disabled selected hidden>Choose...</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select>
-      </div>
+      <!-- Hidden inputs to receive button selections -->
+      <input type="hidden" name="Plan">
+      <input type="hidden" name="Sex">
+      <input type="hidden" name="Smoker">
 
-      <div class="form-group">
-        <label>Message</label>
-        <textarea class="form-control" name="message" required></textarea>
-      </div>
-
-      <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input" id="age">
-        <label class="form-check-label" for="age">
-          Check if you are over 18 years old
-        </label>
-      </div>
-
-      <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input" id="ex" required>
-        <label class="form-check-label" for="ex">
-          I agree with the data terms and policies
-        </label>
-      </div>
-
-      <button type="submit" class="btn btn-primary btn-block">
-        Submit
-      </button>
+      <button type="submit">GET QUOTATION</button>
+      <p id="status"></p>
 
     </form>
   </div>
 </div>
 
 <script>
-  const scriptURL =
-    "https://script.google.com/macros/s/AKfycbz2KBQOdRtP8EfX98eDnuN9U28-WHP1AWwIv72gwgZORZk-5Z9OnPnFSc-KPcZ5mxps/exec";
+  const scriptURL = "https://script.google.com/macros/s/AKfycbyyQBPv7kb-3xjtFi1oNOrnWKE-5re3WaP98eDUpK21LzH-0Epg17eFp9tx59IOC9xs/exec";
 
-  const form = document.getElementById("submit-to-google-sheet");
+  function selectOpt(el, value, field) {
+    [...el.parentElement.children].forEach(b => b.classList.remove("active"));
+    el.classList.add("active");
+    document.querySelector(`input[name="${field}"]`).value = value;
+  }
 
-  form.addEventListener("submit", function (e) {
+  document.getElementById("quotationForm").addEventListener("submit", e => {
     e.preventDefault();
-
-    const formData = new FormData(form);
-
-    // ✅ Match sheet headers exactly
-    formData.append("age",
-      document.getElementById("age").checked ? "Yes" : "No"
-    );
-    formData.append("ex",
-      document.getElementById("ex").checked ? "Yes" : "No"
-    );
+    document.getElementById("status").innerText = "Submitting...";
 
     fetch(scriptURL, {
       method: "POST",
-      body: formData
+      body: new FormData(e.target)
     })
     .then(() => {
-      swal("Done", "Submitted Successfully.", "success");
-      form.reset();
+      document.getElementById("status").innerText = "✅ Submitted successfully";
+      e.target.reset();
+      document.querySelectorAll(".btn-option").forEach(b => b.classList.remove("active"));
     })
     .catch(() => {
-      swal("Error", "Something went wrong. Please try again!", "error");
+      document.getElementById("status").innerText = "❌ Submission failed";
     });
   });
 </script>
