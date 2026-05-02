@@ -140,10 +140,12 @@
       width: 100%;
       padding: 16px;
       border-radius: 14px;
-      background: linear-gradient(135deg, #d4af37, #f5d27a);
       border: none;
+      background: linear-gradient(135deg, #d4af37, #f5d27a);
+      color: #000;
       font-size: 17px;
       font-weight: bold;
+      cursor: pointer;
     }
 
     #status {
@@ -151,6 +153,7 @@
       text-align: center;
       font-weight: bold;
       min-height: 20px;
+      font-size: 15px;
     }
   </style>
 </head>
@@ -163,7 +166,12 @@
     <h2>MUQMEEN GROUP</h2>
     <img class="profile-img">
     <p><strong>Amzar Irfan (AI Agent)</strong></p>
-    <p>Certified <span class="prudential">Prudential</span> <span class="bsn">BSN</span> Takaful Advisor</p>
+    <p>
+      Certified
+      <span class="prudential">Prudential</span>
+      <span class="bsn">BSN</span>
+      Takaful Advisor
+    </p>
   </div>
 
   <!-- FORM -->
@@ -179,21 +187,20 @@
       </div>
 
       <label>Nama Penuh</label>
-      <input name="Name" class="input-box" placeholder="Nama penuh" required>
+      <input name="Name" class="input-box" placeholder="Nama penuh">
 
       <label>Tarikh Lahir</label>
-      <input name="DOB" class="input-box" type="date" required>
+      <input name="DOB" type="date" class="input-box">
 
       <label>No Telefon</label>
       <div class="phone-wrapper">
         <div class="country-code">+60</div>
         <input id="phone" class="input-box" style="margin:0">
       </div>
-
       <input type="hidden" name="Phone Number">
 
       <label>Pekerjaan</label>
-      <input name="Occupation" class="input-box" placeholder="Pekerjaan" required>
+      <input name="Occupation" class="input-box" placeholder="Pekerjaan">
 
       <label>Jantina</label>
       <div class="btn-group">
@@ -207,20 +214,27 @@
         <div class="btn-option" onclick="pick(this,'Yes','Smoker')">Ya</div>
       </div>
 
-      <!-- hidden fields -->
       <input type="hidden" name="Plan">
       <input type="hidden" name="Sex">
       <input type="hidden" name="Smoker">
 
       <button type="submit">GET QUOTATION</button>
       <p id="status"></p>
-
     </form>
   </div>
+
+  <!-- SUCCESS -->
+  <div class="card center" id="successScreen" style="display:none;">
+    <h2>✅ Submission Successful</h2>
+    <p>Terima kasih! Permintaan quotation anda telah diterima.</p>
+    <button onclick="resetForm()">Submit Another Quotation</button>
+  </div>
+
 </div>
 
 <script>
   const scriptURL = "https://script.google.com/macros/s/AKfycbyyQBPv7kb-3xjtFi1oNOrnWKE-5re3WaP98eDUpK21LzH-0Epg17eFp9tx59IOC9xs/exec";
+  const whatsappNumber = "60123456789"; // change to your number
 
   function pick(el, value, name) {
     [...el.parentElement.children].forEach(b => b.classList.remove("active"));
@@ -228,26 +242,55 @@
     document.querySelector(`input[name="${name}"]`).value = value;
   }
 
-  document.getElementById("quotationForm").addEventListener("submit", e => {
+  function showError(msg) {
+    document.getElementById("status").innerText = "❌ " + msg;
+  }
+
+  function resetForm() {
+    successScreen.style.display = "none";
+    formScreen.style.display = "block";
+    document.getElementById("status").innerText = "";
+    quotationForm.reset();
+    document.querySelectorAll(".btn-option").forEach(b => b.classList.remove("active"));
+  }
+
+  quotationForm.addEventListener("submit", e => {
     e.preventDefault();
 
-    const phone = document.getElementById("phone").value.replace(/\s+/g,"").replace(/^0+/,"");
-    document.querySelector('input[name="Phone Number"]').value = "+60" + phone;
+    const name = quotationForm["Name"].value.trim();
+    const dob = quotationForm["DOB"].value;
+    const job = quotationForm["Occupation"].value.trim();
+    const plan = quotationForm["Plan"].value;
+    const sex = quotationForm["Sex"].value;
+    const smoker = quotationForm["Smoker"].value;
 
-    document.getElementById("status").innerText = "⏳ Submitting...";
+    const phoneRaw = phone.value.replace(/\s+/g,"").replace(/^0+/,"");
 
-    fetch(scriptURL, {
-      method: "POST",
-      body: new FormData(e.target)
-    })
+    if (!plan) return showError("Sila pilih pelan.");
+    if (!name) return showError("Sila isi nama penuh.");
+    if (!dob) return showError("Sila pilih tarikh lahir.");
+    if (!phoneRaw) return showError("Sila isi nombor telefon.");
+    if (!job) return showError("Sila isi pekerjaan.");
+    if (!sex) return showError("Sila pilih jantina.");
+    if (!smoker) return showError("Sila pilih status merokok.");
+
+    quotationForm["Phone Number"].value = "+60" + phoneRaw;
+    status.innerText = "⏳ Submitting...";
+
+    fetch(scriptURL, { method:"POST", body:new FormData(quotationForm) })
     .then(() => {
-      document.getElementById("status").innerText = "✅ Submitted successfully";
-      e.target.reset();
-      document.querySelectorAll(".btn-option").forEach(b => b.classList.remove("active"));
+      formScreen.style.display = "none";
+      successScreen.style.display = "block";
+
+      const msg =
+        `Hi Amzar,%0ASaya telah hantar permohonan quotation.%0A` +
+        `Nama: ${name}%0APelan: ${plan}`;
+
+      setTimeout(() => {
+        window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, "_blank");
+      }, 800);
     })
-    .catch(() => {
-      document.getElementById("status").innerText = "❌ Submission failed";
-    });
+    .catch(() => showError("Submission failed. Sila cuba lagi."));
   });
 </script>
 
