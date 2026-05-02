@@ -1,98 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generate Quotation</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" contenttitle>  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ✅ Bootstrap -->
+  <link
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- ✅ SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
 
   <style>
-    body {
-      margin: 0;
-      padding: 16px;
-      font-family: Arial, sans-serif;
-      background: #000;
-      color: #f5d27a;
-    }
-
-    .container {
-      max-width: 420px;
-      margin: 0 auto;
-    }
-
-    h2 {
-      text-align: center;
-    }
-
-    input, button {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 12px;
-      font-size: 16px;
-      border-radius: 10px;
-      border: none;
-      box-sizing: border-box;
-    }
-
-    input {
-      background: #1a1a1a;
-      color: #ffffff;
-    }
-
-    button {
-      background: #d4af37;
-      color: #000000;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    #status {
-      text-align: center;
-      font-weight: bold;
-      margin-top: 12px;
+    .form-container {
+      max-width: 500px;
+      margin: auto;
+      margin-top: 50px;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
     }
   </style>
 </head>
 
-<body>
-
+<body class="bg-light">
 <div class="container">
-  <h2>Generate Quotation</h2>
+  <div class="form-container">
+    <h4 class="text-center mb-4">Form Submission to Google Sheet</h4>
 
-  <input id="name" placeholder="Nama penuh">
-  <input id="dob" type="date">
-  <input id="phone" placeholder="No Telefon">
-  <input id="job" placeholder="Pekerjaan">
+    <form id="submit-to-google-sheet">
 
-  <button onclick="submitForm()">GET QUOTATION</button>
+      <div class="form-group">
+        <label>Name</label>
+        <input class="form-control" type="text" name="name" required />
+      </div>
 
-  <p id="status"></p>
+      <div class="form-group">
+        <label>Email</label>
+        <input class="form-control" type="email" name="email" required />
+      </div>
+
+      <div class="form-group">
+        <label>Contact Number</label>
+        <input class="form-control" type="text" name="contact_number" required />
+      </div>
+
+      <div class="form-group">
+        <label>Gender</label>
+        <select class="form-control" name="gender" required>
+          <option value="" disabled selected hidden>Choose...</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Message</label>
+        <textarea class="form-control" name="message" required></textarea>
+      </div>
+
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="age">
+        <label class="form-check-label" for="age">
+          Check if you are over 18 years old
+        </label>
+      </div>
+
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="ex" required>
+        <label class="form-check-label" for="ex">
+          I agree with the data terms and policies
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">
+        Submit
+      </button>
+
+    </form>
+  </div>
 </div>
 
 <script>
-  function submitForm() {
-    const formData = {
-      name: document.getElementById("name").value,
-      dob: document.getElementById("dob").value,
-      phone: document.getElementById("phone").value,
-      job: document.getElementById("job").value,
-      Plan: "Medical",
-      Jantina: "Lelaki",
-      "Status Merokok": "Tidak"
-    };
+  const scriptURL =
+    "https://script.google.com/macros/s/AKfycbz2KBQOdRtP8EfX98eDnuN9U28-WHP1AWwIv72gwgZORZk-5Z9OnPnFSc-KPcZ5mxps/exec";
 
-    document.getElementById("status").innerText = "⏳ Submitting...";
+  const form = document.getElementById("submit-to-google-sheet");
 
-    fetch("https://script.google.com/macros/s/AKfycbw99u5-7IEgF9bPo3aXKtouNAPDoT9LtH2bRuumUCu4_xoT337tmoPyMF7XbO2i9OZH/exec", {
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    // ✅ Match sheet headers exactly
+    formData.append("age",
+      document.getElementById("age").checked ? "Yes" : "No"
+    );
+    formData.append("ex",
+      document.getElementById("ex").checked ? "Yes" : "No"
+    );
+
+    fetch(scriptURL, {
       method: "POST",
-      body: JSON.stringify(formData)   // ✅ NO headers → NO preflight → NO CORS
+      body: formData
     })
-    .then(res => res.text())
     .then(() => {
-      document.getElementById("status").innerText = "✅ Submitted successfully";
+      swal("Done", "Submitted Successfully.", "success");
+      form.reset();
     })
     .catch(() => {
-      document.getElementById("status").innerText = "❌ Submission failed";
+      swal("Error", "Something went wrong. Please try again!", "error");
     });
-  }
+  });
 </script>
 
 </body>
