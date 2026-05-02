@@ -1,298 +1,262 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * { box-sizing: border-box; }
+<style>
+* { box-sizing: border-box; }
 
-    html, body {
-      width: 100%;
-      max-width: 100%;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      -webkit-text-size-adjust: 100%;
-    }
+html, body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background: #000;
+  color: #f5d27a;
+  font-family: Arial, sans-serif;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #000;
-      color: #f5d27a;
-      padding: 16px;
-    }
+.container {
+  max-width: 420px;
+  margin: auto;
+  padding: 16px;
+}
 
-    .container {
-      width: 100%;
-      max-width: 420px;
-      margin: 0 auto;
-    }
+.card {
+  background: #111;
+  padding: 20px;
+  border-radius: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px rgba(212,175,55,0.15);
+}
 
-    .card {
-      background: #111;
-      padding: 20px;
-      border-radius: 18px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 20px rgba(212,175,55,0.15);
-    }
+.center { text-align: center; }
 
-    .center { text-align: center; }
+h2, h3 {
+  color: #d4af37;
+}
 
-    h2 {
-      color: #d4af37;
-      margin-bottom: 12px;
-      font-size: 22px;
-    }
+.prudential { color: #c8102e; font-weight: bold; }
+.bsn { color: #00b3a4; font-weight: bold; }
 
-    h3 {
-      color: #d4af37;
-      margin-bottom: 12px;
-      font-size: 20px;
-    }
+.profile-img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 3px solid #d4af37;
+  margin: 14px auto;
+  display: block;
+}
 
-    .prudential { color: #c8102e; font-weight: bold; }
-    .bsn { color: #00b3a4; font-weight: bold; }
+label {
+  font-weight: bold;
+  margin-bottom: 6px;
+  display: block;
+}
 
-    .profile-img {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      border: 3px solid #d4af37;
-      object-fit: cover;
-      margin: 14px auto;
-      display: block;
-    }
+.input-box {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 16px;
+}
 
-    label {
-      font-weight: bold;
-      margin-bottom: 6px;
-      display: block;
-      font-size: 15px;
-    }
+.phone-wrapper {
+  display: flex;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
 
-    .input-box {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 16px;
-      font-size: 16px;
-      border-radius: 10px;
-      border: 1px solid #333;
-      background: #1a1a1a;
-      color: #ffffff;
-    }
+.country-code {
+  padding: 14px;
+  border-right: 1px solid #333;
+}
 
-    .input-box::placeholder { color: #aaaaaa; }
+.phone-wrapper input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #fff;
+  padding: 14px;
+  font-size: 16px;
+}
 
-    input[type="date"] {
-      color: #aaaaaa;
-      color-scheme: dark;
-    }
+.btn-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
 
-    .phone-wrapper {
-      display: flex;
-      align-items: center;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 10px;
-      margin-bottom: 16px;
-    }
+.btn-option {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #d4af37;
+  text-align: center;
+  color: #d4af37;
+  cursor: pointer;
+}
 
-    .country-code {
-      padding: 14px 12px;
-      background: #111;
-      color: #ffffff;
-      font-weight: bold;
-      border-right: 1px solid #333;
-    }
+.btn-option.active {
+  background: #d4af37;
+  color: #000;
+  font-weight: bold;
+}
 
-    .phone-wrapper input {
-      flex: 1;
-      padding: 14px;
-      font-size: 16px;
-      border: none;
-      background: transparent;
-      color: #ffffff;
-    }
+button {
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg,#d4af37,#f5d27a);
+  color: #000;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .btn-group {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
 
-    .btn-option {
-      flex: 1;
-      padding: 14px;
-      border-radius: 12px;
-      border: 1px solid #d4af37;
-      text-align: center;
-      cursor: pointer;
-      color: #d4af37;
-    }
-
-    .btn-option.active {
-      background: #d4af37;
-      color: #000;
-      font-weight: bold;
-    }
-
-    button {
-      width: 100%;
-      padding: 16px;
-      border-radius: 14px;
-      border: none;
-      background: linear-gradient(135deg, #d4af37, #f5d27a);
-      color: #000;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    #status {
-      margin-top: 16px;
-      text-align: center;
-      font-weight: bold;
-      min-height: 20px;
-      font-size: 15px;
-    }
-  </style>
+#status {
+  margin-top: 14px;
+  text-align: center;
+  font-weight: bold;
+  min-height: 20px;
+}
+</style>
 </head>
 
 <body>
 <div class="container">
 
-  <!-- PROFILE -->
-  <div class="card center">
-    <h2>MUQMEEN GROUP</h2>
-    <img class="profile-img" src="./D3300090.png" alt="Agent Profile">
-    <p><strong>Amzar Irfan (AI Agent)</strong></p>
-    <p>
-      Certified
-      <span class="prudential">Prudential</span>
-      <span class="bsn">BSN</span>
-      Takaful Advisor
-    </p>
-  </div>
+<!-- PROFILE -->
+<div class="card center">
+  <h2>MUQMEEN GROUP</h2>
+  <img src="./D3300090.png" class="profile-img">
+  <p><strong>Amzar Irfan (AI Agent)</strong></p>
+  <p>Certified <span class="prudential">Prudential</span> <span class="bsn">BSN</span> Takaful Advisor</p>
+</div>
 
-  <!-- FORM -->
-  <div class="card" id="formScreen">
-    <h3>Generate Quotation</h3>
+<!-- FORM -->
+<div class="card" id="formScreen">
+<h3>Generate Quotation</h3>
 
-    <form id="quotationForm">
+<form id="quotationForm">
 
-      <label>Plan</label>
-      <div class="btn-group">
-        <div class="btn-option" onclick="pick(this,'Medical','Plan')">Medical</div>
-        <div class="btn-option" onclick="pick(this,'Hibah','Plan')">Hibah</div>
-      </div>
+<label>Plan</label>
+<div class="btn-group">
+  <div class="btn-option" onclick="pick(this,'Medical','Plan')">Medical</div>
+  <div class="btn-option" onclick="pick(this,'Hibah','Plan')">Hibah</div>
+</div>
 
-      <label>Nama Penuh</label>
-      <input name="Name" class="input-box" placeholder="Nama penuh">
+<label>Nama Penuh</label>
+<input name="Name" class="input-box">
 
-      <label>Tarikh Lahir</label>
-      <input name="DOB" type="date" class="input-box">
+<label>Tarikh Lahir</label>
+<input name="DOB" type="date" class="input-box">
 
-      <label>No Telefon</label>
-      <div class="phone-wrapper">
-        <div class="country-code">+60</div>
-        <input id="phone" class="input-box" style="margin:0">
-      </div>
-      <input type="hidden" name="Phone Number">
+<label>No Telefon</label>
+<div class="phone-wrapper">
+  <div class="country-code">+60</div>
+  <input id="phone">
+</div>
+<input type="hidden" name="Phone Number">
 
-      <label>Pekerjaan</label>
-      <input name="Occupation" class="input-box" placeholder="Pekerjaan">
+<label>Pekerjaan</label>
+<input name="Occupation" class="input-box">
 
-      <label>Jantina</label>
-      <div class="btn-group">
-        <div class="btn-option" onclick="pick(this,'Male','Sex')">Lelaki</div>
-        <div class="btn-option" onclick="pick(this,'Female','Sex')">Perempuan</div>
-      </div>
+<label>Jantina</label>
+<div class="btn-group">
+  <div class="btn-option" onclick="pick(this,'Male','Sex')">Lelaki</div>
+  <div class="btn-option" onclick="pick(this,'Female','Sex')">Perempuan</div>
+</div>
 
-      <label>Status Merokok</label>
-      <div class="btn-group">
-        <div class="btn-option" onclick="pick(this,'No','Smoker')">Tidak</div>
-        <div class="btn-option" onclick="pick(this,'Yes','Smoker')">Ya</div>
-      </div>
+<label>Status Merokok</label>
+<div class="btn-group">
+  <div class="btn-option" onclick="pick(this,'No','Smoker')">Tidak</div>
+  <div class="btn-option" onclick="pick(this,'Yes','Smoker')">Ya</div>
+</div>
 
-      <input type="hidden" name="Plan">
-      <input type="hidden" name="Sex">
-      <input type="hidden" name="Smoker">
+<input type="hidden" name="Plan">
+<input type="hidden" name="Sex">
+<input type="hidden" name="Smoker">
 
-      <button type="submit">GET QUOTATION</button>
-      <p id="status"></p>
-    </form>
-  </div>
+<button type="submit" id="submitBtn">GET QUOTATION</button>
+<p id="status"></p>
+</form>
+</div>
 
-  <!-- SUCCESS -->
-  <div class="card center" id="successScreen" style="display:none;">
-    <h2>✅ Submission Successful</h2>
-    <p>Terima kasih! Permintaan quotation anda telah diterima.</p>
-    <button onclick="resetForm()">Submit Another Quotation</button>
-  </div>
+<!-- SUCCESS -->
+<div class="card center" id="successScreen" style="display:none;">
+<h2>✅ Submission Successful</h2>
+<p>Terima kasih! Permintaan quotation anda telah diterima.</p>
+<button onclick="resetForm()">Submit Another Quotation</button>
+</div>
 
 </div>
 
 <script>
-  const scriptURL = "https://script.google.com/macros/s/AKfycbyyQBPv7kb-3xjtFi1oNOrnWKE-5re3WaP98eDUpK21LzH-0Epg17eFp9tx59IOC9xs/exec";
-  const whatsappNumber = "60146915481"; // change to your number
+const scriptURL = "https://script.google.com/macros/s/AKfycbyyQBPv7kb-3xjtFi1oNOrnWKE-5re3WaP98eDUpK21LzH-0Epg17eFp9tx59IOC9xs/exec";
+const whatsappNumber = "60146915481";
 
-  function pick(el, value, name) {
-    [...el.parentElement.children].forEach(b => b.classList.remove("active"));
-    el.classList.add("active");
-    document.querySelector(`input[name="${name}"]`).value = value;
-  }
+function pick(el,value,name){
+  [...el.parentElement.children].forEach(b=>b.classList.remove("active"));
+  el.classList.add("active");
+  document.querySelector(`input[name="${name}"]`).value=value;
+}
 
-  function showError(msg) {
-    document.getElementById("status").innerText = "❌ " + msg;
-  }
+function resetForm(){
+  successScreen.style.display="none";
+  formScreen.style.display="block";
+  quotationForm.reset();
+  status.innerText="";
+  submitBtn.disabled=false;
+  submitBtn.innerText="GET QUOTATION";
+  document.querySelectorAll(".btn-option").forEach(b=>b.classList.remove("active"));
+}
 
-  function resetForm() {
-    successScreen.style.display = "none";
-    formScreen.style.display = "block";
-    document.getElementById("status").innerText = "";
-    quotationForm.reset();
-    document.querySelectorAll(".btn-option").forEach(b => b.classList.remove("active"));
-  }
+quotationForm.addEventListener("submit",e=>{
+  e.preventDefault();
 
-  quotationForm.addEventListener("submit", e => {
-    e.preventDefault();
+  const name=quotationForm["Name"].value.trim();
+  const phoneRaw=phone.value.replace(/\s+/g,"").replace(/^0+/,"");
 
-    const name = quotationForm["Name"].value.trim();
-    const dob = quotationForm["DOB"].value;
-    const job = quotationForm["Occupation"].value.trim();
-    const plan = quotationForm["Plan"].value;
-    const sex = quotationForm["Sex"].value;
-    const smoker = quotationForm["Smoker"].value;
+  if(!quotationForm["Plan"].value)return status.innerText="❌ Sila pilih pelan.";
+  if(!name)return status.innerText="❌ Sila isi nama.";
+  if(!quotationForm["DOB"].value)return status.innerText="❌ Sila isi tarikh lahir.";
+  if(!phoneRaw)return status.innerText="❌ Sila isi nombor.";
+  if(!quotationForm["Occupation"].value)return status.innerText="❌ Sila isi pekerjaan.";
+  if(!quotationForm["Sex"].value)return status.innerText="❌ Sila pilih jantina.";
+  if(!quotationForm["Smoker"].value)return status.innerText="❌ Sila pilih status merokok.";
 
-    const phoneRaw = phone.value.replace(/\s+/g,"").replace(/^0+/,"");
+  quotationForm["Phone Number"].value="+60"+phoneRaw;
 
-    if (!plan) return showError("Sila pilih pelan.");
-    if (!name) return showError("Sila isi nama penuh.");
-    if (!dob) return showError("Sila pilih tarikh lahir.");
-    if (!phoneRaw) return showError("Sila isi nombor telefon.");
-    if (!job) return showError("Sila isi pekerjaan.");
-    if (!sex) return showError("Sila pilih jantina.");
-    if (!smoker) return showError("Sila pilih status merokok.");
+  status.innerText="⏳ Submitting, please wait...";
+  submitBtn.disabled=true;
+  submitBtn.innerText="SUBMITTING...";
 
-    quotationForm["Phone Number"].value = "+60" + phoneRaw;
-    status.innerText = "⏳ Submitting...";
+  fetch(scriptURL,{method:"POST",body:new FormData(quotationForm)})
+  .then(()=>{
+    formScreen.style.display="none";
+    successScreen.style.display="block";
 
-    fetch(scriptURL, { method:"POST", body:new FormData(quotationForm) })
-    .then(() => {
-      formScreen.style.display = "none";
-      successScreen.style.display = "block";
-
-      const msg =
-        `Hi Amzar,%0ASaya telah hantar permohonan quotation.%0A` +
-        `Nama: ${name}%0APelan: ${plan}`;
-
-      setTimeout(() => {
-        window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, "_blank");
-      }, 800);
-    })
-    .catch(() => showError("Submission failed. Sila cuba lagi."));
+    const msg=`Hi Amzar,%0ASaya telah hantar permohonan quotation.%0ANama: ${name}%0APelan: ${quotationForm["Plan"].value}`;
+    window.open(`https://wa.me/${whatsappNumber}?text=${msg}`,"_blank");
+  })
+  .catch(()=>{
+    status.innerText="❌ Submission failed. Sila cuba lagi.";
+    submitBtn.disabled=false;
+    submitBtn.innerText="GET QUOTATION";
   });
+});
 </script>
-
 </body>
 </html>
+<html>
+<head>
