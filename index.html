@@ -1,233 +1,156 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    * { box-sizing: border-box; }
-
-    html, body {
-      width: 100%;
-      max-width: 100%;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      -webkit-text-size-adjust: 100%;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #000;
-      color: #f5d27a;
-      padding: 16px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 420px;
-      margin: 0 auto;
-    }
-
-    .card {
-      background: #111;
-      padding: 20px;
-      border-radius: 18px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 20px rgba(212,175,55,0.15);
-    }
-
-    .center { text-align: center; }
-
-    h2 {
-      color: #d4af37;
-      margin-bottom: 12px;
-      font-size: 22px;
-    }
-
-    h3 {
-      color: #d4af37;
-      margin-bottom: 12px;
-      font-size: 20px;
-    }
-
-    .prudential { color: #c8102e; font-weight: bold; }
-    .bsn { color: #00b3a4; font-weight: bold; }
-
-    .profile-img {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      border: 3px solid #d4af37;
-      object-fit: cover;
-      margin: 14px auto;
-      display: block;
-    }
-
-    label {
-      font-weight: bold;
-      margin-bottom: 6px;
-      display: block;
-      font-size: 15px;
-    }
-
-    .input-box {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 16px;
-      font-size: 16px;
-      border-radius: 10px;
-      border: 1px solid #333;
-      background: #1a1a1a;
-      color: #ffffff;
-    }
-
-    .input-box::placeholder { color: #aaaaaa; }
-
-    input[type="date"] {
-      color: #aaaaaa;
-      color-scheme: dark;
-    }
-
-    .phone-wrapper {
-      display: flex;
-      align-items: center;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 10px;
-      margin-bottom: 16px;
-    }
-
-    .country-code {
-      padding: 14px 12px;
-      background: #111;
-      color: #ffffff;
-      font-weight: bold;
-      border-right: 1px solid #333;
-    }
-
-    .phone-wrapper input {
-      flex: 1;
-      padding: 14px;
-      font-size: 16px;
-      border: none;
-      background: transparent;
-      color: #ffffff;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .btn-option {
-      flex: 1;
-      padding: 14px;
-      border-radius: 12px;
-      border: 1px solid #d4af37;
-      text-align: center;
-      cursor: pointer;
-      color: #d4af37;
-    }
-
-    .btn-option.active {
-      background: #d4af37;
-      color: #000;
-      font-weight: bold;
-    }
-
-    button {
-      width: 100%;
-      padding: 16px;
-      border-radius: 14px;
-      border: none;
-      background: linear-gradient(135deg, #d4af37, #f5d27a);
-      color: #000;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    #status {
-      margin-top: 16px;
-      text-align: center;
-      font-weight: bold;
-      min-height: 20px;
-      font-size: 15px;
-    }
-  </style>
+  <title>Muqmeen Group | Quotation</title>
+ 
+  <!-- Keep your existing CSS here -->
 </head>
-
+ 
 <body>
-<div class="container">
-
-  <!-- PROFILE -->
-  <div class="card center">
-    <h2>MUQMEEN GROUP</h2>
-    <img class="profile-img" src="./D3300090.png" alt="Agent Profile">
-    <p><strong>Amzar Irfan (AI Agent)</strong></p>
-    <p>
-      Certified
-      <span class="prudential">Prudential</span>
-      <span class="bsn">BSN</span>
-      Takaful Advisor
-    </p>
-  </div>
-
-  <!-- FORM -->
-  <div class="card" id="formScreen">
-    <h3>Generate Quotation</h3>
-
-    <form id="quotationForm">
-
-      <label>Plan</label>
-      <div class="btn-group">
-        <div class="btn-option" onclick="pick(this,'Medical','Plan')">Medical</div>
-        <div class="btn-option" onclick="pick(this,'Hibah','Plan')">Hibah</div>
-      </div>
-
-      <label>Nama Penuh</label>
-      <input name="Name" class="input-box" placeholder="Nama penuh">
-
-      <label>Tarikh Lahir</label>
-      <input name="DOB" type="date" class="input-box">
-
-      <label>No Telefon</label>
-      <div class="phone-wrapper">
-        <div class="country-code">+60</div>
-        <input id="phone" class="input-box" style="margin:0">
-      </div>
-      <input type="hidden" name="Phone Number">
-
-      <label>Pekerjaan</label>
-      <input name="Occupation" class="input-box" placeholder="Pekerjaan">
-
-      <label>Jantina</label>
-      <div class="btn-group">
-        <div class="btn-option" onclick="pick(this,'Male','Sex')">Lelaki</div>
-        <div class="btn-option" onclick="pick(this,'Female','Sex')">Perempuan</div>
-      </div>
-
-      <label>Status Merokok</label>
-      <div class="btn-group">
-        <div class="btn-option" onclick="pick(this,'No','Smoker')">Tidak</div>
-        <div class="btn-option" onclick="pick(this,'Yes','Smoker')">Ya</div>
-      </div>
-
-      <input type="hidden" name="Plan">
-      <input type="hidden" name="Sex">
-      <input type="hidden" name="Smoker">
-
-      <button type="submit">GET QUOTATION</button>
-      <p id="status"></p>
-    </form>
-  </div>
-
-  <!-- SUCCESS -->
-  <div class="card center" id="successScreen" style="display:none;">
-    <h2>✅ Submission Successful</h2>
-    <p>Terima kasih! Permintaan quotation anda telah diterima.</p>
-    <button onclick="resetForm()">Submit Another Quotation</button>
+ 
+  <div class="container">
+ 
+    <!-- ================= HEADER / PROFILE ================= -->
+    <header class="card center">
+      <h2>MUQMEEN GROUP</h2>
+ 
+      <img
+        class="profile-img"
+        src="./D3300090.png"
+        alt="Amzar Irfan - Takaful Advisor"
+      >
+ 
+      <p><strong>Amzar Irfan (AI Agent)</strong></p>
+ 
+      <p>
+        Certified
+        <span class="prudential">Prudential</span>
+        <span class="bsn">BSN</span>
+        Takaful Advisor
+      </p>
+    </header>
+ 
+    <!-- ================= FORM SECTION ================= -->
+    <main class="card" id="formScreen">
+      <h3>Generate Quotation</h3>
+ 
+      <form id="quotationForm" novalidate>
+ 
+        <!-- PLAN -->
+        <section>
+          <label>Plan</label>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn-option" onclick="pick(this,'Medical','Plan')">
+              Medical
+            </button>
+            <button type="button" class="btn-option" onclick="pick(this,'Hibah','Plan')">
+              Hibah
+            </button>
+          </div>
+        </section>
+ 
+        <!-- NAME -->
+        <section>
+          <label for="name">Nama Penuh</label>
+          <input
+            id="name"
+            name="Name"
+            class="input-box"
+            placeholder="Nama penuh"
+            required
+          >
+        </section>
+ 
+        <!-- DOB -->
+        <section>
+          <label for="dob">Tarikh Lahir</label>
+          <input
+            id="dob"
+            name="DOB"
+            type="date"
+            class="input-box"
+            required
+          >
+        </section>
+ 
+        <!-- PHONE -->
+        <section>
+          <label for="phone">No Telefon</label>
+          <div class="phone-wrapper">
+            <span class="country-code">+60</span>
+            <input
+              id="phone"
+              type="tel"
+              placeholder="Contoh: 123456789"
+              required
+            >
+          </div>
+          <input type="hidden" name="Phone Number">
+        </section>
+ 
+        <!-- OCCUPATION -->
+        <section>
+          <label for="job">Pekerjaan</label>
+          <input
+            id="job"
+            name="Occupation"
+            class="input-box"
+            placeholder="Pekerjaan"
+            required
+          >
+        </section>
+ 
+        <!-- GENDER -->
+        <section>
+          <label>Jantina</label>
+          <div class="btn-group">
+            <button type="button" class="btn-option" onclick="pick(this,'Male','Sex')">
+              Lelaki
+            </button>
+            <button type="button" class="btn-option" onclick="pick(this,'Female','Sex')">
+              Perempuan
+            </button>
+          </div>
+        </section>
+ 
+        <!-- SMOKER -->
+        <section>
+          <label>Status Merokok</label>
+          <div class="btn-group">
+            <button type="button" class="btn-option" onclick="pick(this,'No','Smoker')">
+              Tidak
+            </button>
+            <button type="button" class="btn-option" onclick="pick(this,'Yes','Smoker')">
+              Ya
+            </button>
+          </div>
+        </section>
+ 
+        <!-- HIDDEN FIELDS -->
+        <input type="hidden" name="Plan">
+        <input type="hidden" name="Sex">
+        <input type="hidden" name="Smoker">
+ 
+        <!-- SUBMIT -->
+        <button type="submit">GET QUOTATION</button>
+ 
+        <p id="status" role="alert"></p>
+ 
+      </form>
+    </main>
+ 
+    <!-- ================= SUCCESS SCREEN ================= -->
+    <section class="card center" id="successScreen" style="display:none;">
+      <h2>✅ Submission Successful</h2>
+      <p>Terima kasih! Permintaan quotation anda telah diterima.</p>
+ 
+      <button type="button" onclick="resetForm()">
+        Submit Another Quotation
+      </button>
+    </section>
+ 
   </div>
 
 </div>
