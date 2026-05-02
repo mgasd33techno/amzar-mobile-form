@@ -218,7 +218,7 @@
 <input type="hidden" name="Sex">
 <input type="hidden" name="Smoker">
  
-      <button type="submit" id="submitBtn">GET QUOTATION</button>
+      <button type="submit">GET QUOTATION</button>
 <p id="status"></p>
 </form>
 </div>
@@ -233,7 +233,7 @@
 </div>
  
 <script>
-  const scriptURL = "https://script.google.com/macros/s/AKfycbyyQBPv7kb-3xjtFi1oNOrnWKE-5re3WaP98eDUpK21LzH-0Epg17eFp9tx59IOC9xs/exec%22;
+  const scriptURL = "https://script.google.com/macros/s/AKfycbyyQBPv7kb-3xjtFi1oNOrnWKE-5re3WaP98eDUpK21LzH-0Epg17eFp9tx59IOC9xs/exec";
   const whatsappNumber = "60146915481"; // change to your number
  
   function pick(el, value, name) {
@@ -254,21 +254,18 @@
     document.querySelectorAll(".btn-option").forEach(b => b.classList.remove("active"));
   }
  
-  
-quotationForm.addEventListener("submit", e => {
+  quotationForm.addEventListener("submit", e => {
     e.preventDefault();
-
-    const submitBtn = document.getElementById("submitBtn");
-
+ 
     const name = quotationForm["Name"].value.trim();
     const dob = quotationForm["DOB"].value;
     const job = quotationForm["Occupation"].value.trim();
     const plan = quotationForm["Plan"].value;
     const sex = quotationForm["Sex"].value;
     const smoker = quotationForm["Smoker"].value;
-
+ 
     const phoneRaw = phone.value.replace(/\s+/g,"").replace(/^0+/,"");
-
+ 
     if (!plan) return showError("Sila pilih pelan.");
     if (!name) return showError("Sila isi nama penuh.");
     if (!dob) return showError("Sila pilih tarikh lahir.");
@@ -276,41 +273,26 @@ quotationForm.addEventListener("submit", e => {
     if (!job) return showError("Sila isi pekerjaan.");
     if (!sex) return showError("Sila pilih jantina.");
     if (!smoker) return showError("Sila pilih status merokok.");
-
-    // ✅ LOCK BUTTON AFTER VALIDATION
-    submitBtn.disabled = true;
-    submitBtn.innerText = "SUBMITTING...";
-    submitBtn.style.opacity = "0.7";
-    submitBtn.style.cursor = "not-allowed";
-
+ 
     quotationForm["Phone Number"].value = "+60" + phoneRaw;
     status.innerText = "⏳ Submitting...";
-
-    fetch(scriptURL, { method: "POST", body: new FormData(quotationForm) })
-      .then(() => {
-        formScreen.style.display = "none";
-        successScreen.style.display = "block";
-
-        const msg =
-          `Hi Amzar,%0ASaya telah hantar permohonan quotation.%0A` +
-          `Nama: ${name}%0APelan: ${plan}`;
-
-        setTimeout(() => {
-          window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, "_blank");
-        }, 800);
-      })
-      .catch(() => {
-        showError("Submission failed. Sila cuba lagi.");
-
-        // 🔓 RE-ENABLE BUTTON IF FAILED
-        submitBtn.disabled = false;
-        submitBtn.innerText = "GET QUOTATION";
-        submitBtn.style.opacity = "1";
-        submitBtn.style.cursor = "pointer";
-      });
+ 
+    fetch(scriptURL, { method:"POST", body:new FormData(quotationForm) })
+    .then(() => {
+      formScreen.style.display = "none";
+      successScreen.style.display = "block";
+ 
+      const msg =
+        `Hi Amzar,%0ASaya telah hantar permohonan quotation.%0A` +
+        `Nama: ${name}%0APelan: ${plan}`;
+ 
+      setTimeout(() => {
+        window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, "_blank");
+      }, 800);
+    })
+    .catch(() => showError("Submission failed. Sila cuba lagi."));
   });
 </script>
-
  
 </body>
 </html>
