@@ -416,6 +416,17 @@
         scriptURL: GOOGLE_SHEET_URL
       }));
       initAgents();
+      
+      // Check if agent code is in URL parameters
+      const params = new URLSearchParams(window.location.search);
+      const agentCode = params.get('agent');
+      
+      if (agentCode) {
+        const agent = agents.find(a => a.code === agentCode);
+        if (agent) {
+          selectAgent(agent);
+        }
+      }
     } catch (error) {
       console.error('Error loading agents:', error);
     }
