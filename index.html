@@ -310,6 +310,11 @@
 </head>
  
 <body>
+<!-- Background Music -->
+<audio id="bgMusic" loop muted>
+  <source src="./Audio/background.mp3" type="audio/mpeg">
+</audio>
+
 <div class="container">
  
   <!-- MAIN LANDING PAGE -->
@@ -385,7 +390,7 @@
         <input type="hidden" name="Smoker">
         <input type="hidden" name="Agent Code" id="agentCodeField">
  
-        <button type="submit">REQUEST QUOTATION</button>
+        <button type="submit">SUBMIT</button>
         <p id="status"></p>
       </form>
     </div>
@@ -403,6 +408,32 @@
 <script>
   // Google Apps Script URL (shared for all agents)
   const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbyyQBPv7kb-3xjtFi1oNOrnWKE-5re3WaP98eDUpK21LzH-0Epg17eFp9tx59IOC9xs/exec';
+
+  // Background Music - Auto-start on user interaction
+  const bgMusic = document.getElementById('bgMusic');
+  bgMusic.volume = 0.5; // Set volume to 50%
+
+  function startMusic() {
+    bgMusic.muted = false;
+    bgMusic.play().catch(err => console.log('Music play error:', err));
+    console.log('Music started');
+    // Remove listener after first interaction
+    document.removeEventListener('click', startMusic);
+    document.removeEventListener('scroll', startMusic);
+    document.removeEventListener('touchstart', startMusic);
+  }
+
+  // Start music on first user interaction
+  document.addEventListener('click', startMusic);
+  document.addEventListener('scroll', startMusic);
+  document.addEventListener('touchstart', startMusic);
+
+  // Ensure music continues playing on all screens
+  setInterval(() => {
+    if (bgMusic.paused) {
+      bgMusic.play().catch(err => console.log('Music auto-restart error:', err));
+    }
+  }, 2000);
 
   // AGENTS DATA - loaded from agents.json
   let agents = [];
@@ -549,7 +580,15 @@
   });
 
   // Initialize on page load
-  window.addEventListener('load', loadAgents);
+  window.addEventListener('load', () => {
+    loadAgents();
+    // Try to play music on page load
+    setTimeout(() => {
+      bgMusic.muted = false;
+      bgMusic.play().catch(err => console.log('Auto-start error:', err));
+      console.log('Page load: Music auto-start attempted');
+    }, 500);
+  });
 </script>
  
 </body>
