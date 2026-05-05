@@ -404,6 +404,7 @@
   let agents = [];
 
   let currentAgent = null;
+  let isDirectLink = false;
 
   // Load agents from JSON file
   async function loadAgents() {
@@ -424,6 +425,7 @@
       if (agentCode) {
         const agent = agents.find(a => a.code === agentCode);
         if (agent) {
+          isDirectLink = true;
           selectAgent(agent);
         }
       }
@@ -456,6 +458,10 @@
     document.getElementById('agentDisplayImage').src = agent.image;
     document.getElementById('agentDisplayTitle').textContent = agent.title;
     document.getElementById('agentCodeField').value = agent.code;
+    
+    // Show or hide back button based on whether this is a direct link
+    const backBtn = document.querySelector('.btn-back');
+    backBtn.style.display = isDirectLink ? 'none' : 'inline-block';
     
     showScreen('profileScreen');
   }
