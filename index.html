@@ -185,6 +185,10 @@
       color: #aaaaaa;
       color-scheme: dark;
     }
+
+    input[type="date"]:valid {
+      color: #ffffff;
+    }
  
     .phone-wrapper {
       display: flex;
@@ -352,7 +356,7 @@
         <input name="Name" class="input-box" placeholder="Full Name">
  
         <label>Birth Date</label>
-        <input name="DOB" type="date" class="input-box">
+        <input name="DOB" type="date" class="input-box" required>
  
         <label>Phone Number</label>
         <div class="phone-wrapper">
@@ -418,9 +422,8 @@
       }));
       initAgents();
       
-      // Check if agent code is in URL parameters
-      const params = new URLSearchParams(window.location.search);
-      const agentCode = params.get('agent');
+      // Check if agent code is in URL hash
+      const agentCode = window.location.hash.substring(1);
       
       if (agentCode) {
         const agent = agents.find(a => a.code === agentCode);
@@ -459,6 +462,11 @@
     document.getElementById('agentDisplayTitle').textContent = agent.title;
     document.getElementById('agentCodeField').value = agent.code;
     
+    // Update URL hash with agent code
+    if (!isDirectLink) {
+      window.location.hash = agent.code;
+    }
+    
     // Show or hide back button based on whether this is a direct link
     const backBtn = document.querySelector('.btn-back');
     backBtn.style.display = isDirectLink ? 'none' : 'inline-block';
@@ -467,6 +475,7 @@
   }
 
   function goBack() {
+    window.location.hash = '';
     showScreen('mainScreen');
     resetForm();
   }
@@ -502,8 +511,9 @@
       return;
     }
 
+    const dobInput = document.getElementById("quotationForm")["DOB"];
     const name = document.getElementById("quotationForm")["Name"].value.trim();
-    const dob = document.getElementById("quotationForm")["DOB"].value;
+    const dob = dobInput.value;
     const job = document.getElementById("quotationForm")["Occupation"].value.trim();
     const plan = document.getElementById("quotationForm")["Plan"].value;
     const sex = document.getElementById("quotationForm")["Sex"].value;
