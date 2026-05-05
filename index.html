@@ -353,7 +353,7 @@
         </div>
  
         <label>Full Name</label>
-        <input name="Name" class="input-box" placeholder="Full Name">
+        <input name="Name" class="input-box" placeholder="As per IC" required>
  
         <label>Birth Date</label>
         <input name="DOB" type="date" class="input-box" required>
@@ -361,12 +361,12 @@
         <label>Phone Number</label>
         <div class="phone-wrapper">
           <div class="country-code">+60</div>
-          <input id="phone" class="input-box" style="margin:0" placeholder="123456789">
+          <input id="phone" class="input-box" style="margin:0" placeholder="123456789" required>
         </div>
         <input type="hidden" name="Phone Number">
  
         <label>Occupation</label>
-        <input name="Occupation" class="input-box" placeholder="Occupation">
+        <input name="Occupation" class="input-box" placeholder="e.g. Teacher" required>
  
         <label>Gender</label>
         <div class="btn-group">
@@ -385,7 +385,7 @@
         <input type="hidden" name="Smoker">
         <input type="hidden" name="Agent Code" id="agentCodeField">
  
-        <button type="submit">GET QUOTATION</button>
+        <button type="submit">REQUEST QUOTATION</button>
         <p id="status"></p>
       </form>
     </div>
@@ -394,7 +394,7 @@
     <div class="card center" id="successScreen" style="display:none;">
       <h2>✅ Submission Successful</h2>
       <p>Thank You! Your enquiry on takaful quotation has been received.</p>
-      <button onclick="resetForm()">Submit Another Quotation</button>
+      <button onclick="resetForm()">Submit Another Request</button>
     </div>
   </div>
  
