@@ -1,0 +1,30 @@
+[
+  {
+    "code": "D3300001",
+    "name": "Norman Muhammad",
+    "title": "(Big Boss Che Man)",
+    "image": "./Picture/D3300001.jpg",
+    "whatsapp": "60164321217"
+  },
+  {
+    "code": "N1M00001",
+    "name": "Norman Ridzuan",
+    "title": "(Little Boss Iwan)",
+    "image": "./Picture/N1M00001.jpg",
+    "whatsapp": "60132443019"
+  },
+  {
+    "code": "D3300090",
+    "name": "Amzar Irfan",
+    "title": "(AI Agent)",
+    "image": "./Picture/D3300090.png",
+    "whatsapp": "60146915481"
+  },
+  {
+    "code": "D3300145",
+    "name": "Ammar Irfan",
+    "title": "(Abang Bear)",
+    "image": "./Picture/D3300145.jpg",
+    "whatsapp": "60106569940"
+  }
+]

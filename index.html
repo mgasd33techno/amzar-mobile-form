@@ -17,9 +17,26 @@
  
     body {
       font-family: Arial, sans-serif;
-      background: #000;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1410 50%, #0f0f0f 100%);
+      background-attachment: fixed;
       color: #f5d27a;
       padding: 16px;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(212,175,55,0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(212,175,55,0.03) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
     }
  
     .container {
@@ -38,6 +55,29 @@
  
     .center { text-align: center; }
  
+    h1 {
+      color: #d4af37;
+      margin-bottom: 8px;
+      font-size: 32px;
+      text-align: center;
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-shadow: 0 2px 10px rgba(212,175,55,0.5),
+                   0 4px 20px rgba(212,175,55,0.3),
+                   2px 2px 5px rgba(0,0,0,0.8);
+      font-family: 'Arial Black', 'Helvetica Bold', sans-serif;
+    }
+
+    .subtitle-text {
+      color: #d4af37;
+      font-size: 14px;
+      margin-top: -12px;
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+      font-weight: bold;
+      text-shadow: 0 2px 8px rgba(212,175,55,0.4);
+    }
+
     h2 {
       color: #d4af37;
       margin-bottom: 12px;
@@ -52,6 +92,64 @@
  
     .prudential { color: #c8102e; font-weight: bold; }
     .bsn { color: #00b3a4; font-weight: bold; }
+
+    .agents-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .agent-box {
+      background: #1a1a1a;
+      padding: 16px;
+      border-radius: 14px;
+      border: 2px solid #d4af37;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .agent-box:hover {
+      background: #2a2a2a;
+      box-shadow: 0 0 15px rgba(212,175,55,0.3);
+    }
+
+    .agent-box img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+      border: 2px solid #d4af37;
+    }
+
+    .agent-name {
+      color: #d4af37;
+      font-weight: 900;
+      font-size: 15px;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 4px rgba(212,175,55,0.4);
+      font-family: 'Arial Black', 'Helvetica Bold', sans-serif;
+    }
+
+    .agent-title {
+      color: #f5d27a;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 3px rgba(212,175,55,0.3);
+      font-style: italic;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #f5d27a;
+      font-size: 18px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
  
     .profile-img {
       width: 96px;
@@ -147,6 +245,20 @@
       font-weight: bold;
       cursor: pointer;
     }
+
+    .btn-back {
+      background: #333;
+      color: #d4af37;
+      margin-bottom: 12px;
+      width: auto;
+      padding: 8px 12px;
+      font-size: 12px;
+      display: inline-block;
+    }
+
+    .btn-back:hover {
+      background: #444;
+    }
  
     #status {
       margin-top: 16px;
@@ -155,87 +267,198 @@
       min-height: 20px;
       font-size: 15px;
     }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .mg-logo {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 16px auto;
+      display: block;
+      border: 3px solid #d4af37;
+      box-shadow: 0 0 30px rgba(212,175,55,0.6),
+                  0 0 60px rgba(212,175,55,0.4),
+                  inset 0 0 20px rgba(212,175,55,0.2);
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        box-shadow: 0 0 30px rgba(212,175,55,0.6),
+                    0 0 60px rgba(212,175,55,0.4),
+                    inset 0 0 20px rgba(212,175,55,0.2);
+      }
+      50% {
+        box-shadow: 0 0 40px rgba(212,175,55,0.8),
+                    0 0 80px rgba(212,175,55,0.6),
+                    inset 0 0 30px rgba(212,175,55,0.3);
+      }
+    }
 </style>
 </head>
  
 <body>
 <div class="container">
  
+  <!-- MAIN LANDING PAGE -->
+  <div class="screen active" id="mainScreen">
+    <div class="card center">
+      <h1>MUQMEEN GROUP</h1>
+      <p class="subtitle-text">ALOR SETAR</p>
+      <img class="mg-logo" src="./Picture/MGlogo.jpg" alt="MG Logo">
+    </div>
+
+    <div class="card">
+      <p class="subtitle">Choose Your Takaful Hero</p>
+      <div class="agents-grid" id="agentsContainer"></div>
+    </div>
+  </div>
+
   <!-- PROFILE -->
-<div class="card center">
-<h2>MUQMEEN GROUP</h2>
-<img class="profile-img" src="./D3300090.png" alt="Agent Profile">
-<p><strong>Amzar Irfan (AI Agent)</strong></p>
-<p>
-      Certified
-<span class="prudential">Prudential</span>
-<span class="bsn">BSN</span>
-      Takaful Advisor
-</p>
-</div>
+  <div class="screen" id="profileScreen">
+    <button class="btn-back" onclick="goBack()">← Back to Agents</button>
+    <div class="card center">
+      <h2 id="agentDisplayName">MUQMEEN GROUP</h2>
+      <img class="profile-img" id="agentDisplayImage" src="" alt="Agent Profile">
+      <p id="agentDisplayTitle" style="margin: 0;"></p>
+      <p style="margin-top: 4px;">
+        <span class="prudential">Prudential</span>
+        <span class="bsn">BSN</span>
+        Takaful Advisor
+      </p>
+    </div>
  
-  <!-- FORM -->
-<div class="card" id="formScreen">
-<h3>Generate Quotation</h3>
+    <!-- FORM -->
+    <div class="card" id="formScreen">
+      <h3>Generate Quotation</h3>
  
-    <form id="quotationForm">
+      <form id="quotationForm">
  
-      <label>Plan</label>
-<div class="btn-group">
-<div class="btn-option" onclick="pick(this,'Medical','Plan')">Medical</div>
-<div class="btn-option" onclick="pick(this,'Hibah','Plan')">Hibah</div>
-</div>
+        <label>Plan</label>
+        <div class="btn-group">
+          <div class="btn-option" onclick="pick(this,'Medical','Plan')">Medical</div>
+          <div class="btn-option" onclick="pick(this,'Hibah','Plan')">Hibah</div>
+        </div>
  
-      <label>Nama Penuh</label>
-<input name="Name" class="input-box" placeholder="Nama penuh">
+        <label>Full Name</label>
+        <input name="Name" class="input-box" placeholder="Full Name">
  
-      <label>Tarikh Lahir</label>
-<input name="DOB" type="date" class="input-box">
+        <label>Birth Date</label>
+        <input name="DOB" type="date" class="input-box">
  
-      <label>No Telefon</label>
-<div class="phone-wrapper">
-<div class="country-code">+60</div>
-<input id="phone" class="input-box" style="margin:0">
-</div>
-<input type="hidden" name="Phone Number">
+        <label>Phone Number</label>
+        <div class="phone-wrapper">
+          <div class="country-code">+60</div>
+          <input id="phone" class="input-box" style="margin:0" placeholder="123456789">
+        </div>
+        <input type="hidden" name="Phone Number">
  
-      <label>Pekerjaan</label>
-<input name="Occupation" class="input-box" placeholder="Pekerjaan">
+        <label>Occupation</label>
+        <input name="Occupation" class="input-box" placeholder="Occupation">
  
-      <label>Jantina</label>
-<div class="btn-group">
-<div class="btn-option" onclick="pick(this,'Male','Sex')">Lelaki</div>
-<div class="btn-option" onclick="pick(this,'Female','Sex')">Perempuan</div>
-</div>
+        <label>Gender</label>
+        <div class="btn-group">
+          <div class="btn-option" onclick="pick(this,'Male','Sex')">Male</div>
+          <div class="btn-option" onclick="pick(this,'Female','Sex')">Female</div>
+        </div>
  
-      <label>Status Merokok</label>
-<div class="btn-group">
-<div class="btn-option" onclick="pick(this,'No','Smoker')">Tidak</div>
-<div class="btn-option" onclick="pick(this,'Yes','Smoker')">Ya</div>
-</div>
+        <label>Smoking Status</label>
+        <div class="btn-group">
+          <div class="btn-option" onclick="pick(this,'No','Smoker')">Non-Smoker</div>
+          <div class="btn-option" onclick="pick(this,'Yes','Smoker')">Smoker</div>
+        </div>
  
-      <input type="hidden" name="Plan">
-<input type="hidden" name="Sex">
-<input type="hidden" name="Smoker">
+        <input type="hidden" name="Plan">
+        <input type="hidden" name="Sex">
+        <input type="hidden" name="Smoker">
+        <input type="hidden" name="Agent Code" id="agentCodeField">
  
-      <button type="submit">GET QUOTATION</button>
-<p id="status"></p>
-</form>
-</div>
+        <button type="submit">GET QUOTATION</button>
+        <p id="status"></p>
+      </form>
+    </div>
  
-  <!-- SUCCESS -->
-<div class="card center" id="successScreen" style="display:none;">
-<h2>✅ Submission Successful</h2>
-<p>Terima kasih! Permintaan quotation anda telah diterima.</p>
-<button onclick="resetForm()">Submit Another Quotation</button>
-</div>
+    <!-- SUCCESS -->
+    <div class="card center" id="successScreen" style="display:none;">
+      <h2>✅ Submission Successful</h2>
+      <p>Thank You! Your enquiry on takaful quotation has been received.</p>
+      <button onclick="resetForm()">Submit Another Quotation</button>
+    </div>
+  </div>
  
 </div>
  
 <script>
-  const scriptURL = "https://script.google.com/macros/s/AKfycbyyQBPv7kb-3xjtFi1oNOrnWKE-5re3WaP98eDUpK21LzH-0Epg17eFp9tx59IOC9xs/exec";
-  const whatsappNumber = "60146915481"; // change to your number
- 
+  // Google Apps Script URL (shared for all agents)
+  const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbyyQBPv7kb-3xjtFi1oNOrnWKE-5re3WaP98eDUpK21LzH-0Epg17eFp9tx59IOC9xs/exec';
+
+  // AGENTS DATA - loaded from agents.json
+  let agents = [];
+
+  let currentAgent = null;
+
+  // Load agents from JSON file
+  async function loadAgents() {
+    try {
+      const response = await fetch('./agents.json');
+      const data = await response.json();
+      // Add scriptURL to each agent
+      agents = data.map(agent => ({
+        ...agent,
+        scriptURL: GOOGLE_SHEET_URL
+      }));
+      initAgents();
+    } catch (error) {
+      console.error('Error loading agents:', error);
+    }
+  }
+
+  // Initialize agents grid on page load
+  function initAgents() {
+    const container = document.getElementById('agentsContainer');
+    container.innerHTML = '';
+    
+    agents.forEach(agent => {
+      const box = document.createElement('div');
+      box.className = 'agent-box';
+      box.innerHTML = `
+        <img src="${agent.image}" alt="${agent.name}">
+        <div class="agent-name">${agent.name}</div>
+        <div class="agent-title">${agent.title}</div>
+      `;
+      box.onclick = () => selectAgent(agent);
+      container.appendChild(box);
+    });
+  }
+
+  function selectAgent(agent) {
+    currentAgent = agent;
+    document.getElementById('agentDisplayName').textContent = agent.name;
+    document.getElementById('agentDisplayImage').src = agent.image;
+    document.getElementById('agentDisplayTitle').textContent = agent.title;
+    document.getElementById('agentCodeField').value = agent.code;
+    
+    showScreen('profileScreen');
+  }
+
+  function goBack() {
+    showScreen('mainScreen');
+    resetForm();
+  }
+
+  function showScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(screenId).classList.add('active');
+  }
+
   function pick(el, value, name) {
     [...el.parentElement.children].forEach(b => b.classList.remove("active"));
     el.classList.add("active");
@@ -247,24 +470,29 @@
   }
  
   function resetForm() {
-    successScreen.style.display = "none";
-    formScreen.style.display = "block";
+    document.getElementById("formScreen").style.display = "block";
+    document.getElementById("successScreen").style.display = "none";
     document.getElementById("status").innerText = "";
-    quotationForm.reset();
+    document.getElementById("quotationForm").reset();
     document.querySelectorAll(".btn-option").forEach(b => b.classList.remove("active"));
   }
  
-  quotationForm.addEventListener("submit", e => {
+  document.getElementById("quotationForm").addEventListener("submit", e => {
     e.preventDefault();
  
-    const name = quotationForm["Name"].value.trim();
-    const dob = quotationForm["DOB"].value;
-    const job = quotationForm["Occupation"].value.trim();
-    const plan = quotationForm["Plan"].value;
-    const sex = quotationForm["Sex"].value;
-    const smoker = quotationForm["Smoker"].value;
+    if (!currentAgent) {
+      showError("Please select an agent first.");
+      return;
+    }
+
+    const name = document.getElementById("quotationForm")["Name"].value.trim();
+    const dob = document.getElementById("quotationForm")["DOB"].value;
+    const job = document.getElementById("quotationForm")["Occupation"].value.trim();
+    const plan = document.getElementById("quotationForm")["Plan"].value;
+    const sex = document.getElementById("quotationForm")["Sex"].value;
+    const smoker = document.getElementById("quotationForm")["Smoker"].value;
  
-    const phoneRaw = phone.value.replace(/\s+/g,"").replace(/^0+/,"");
+    const phoneRaw = document.getElementById("phone").value.replace(/\s+/g,"").replace(/^0+/,"");
  
     if (!plan) return showError("Sila pilih pelan.");
     if (!name) return showError("Sila isi nama penuh.");
@@ -274,24 +502,27 @@
     if (!sex) return showError("Sila pilih jantina.");
     if (!smoker) return showError("Sila pilih status merokok.");
  
-    quotationForm["Phone Number"].value = "+60" + phoneRaw;
-    status.innerText = "⏳ Submitting...";
+    document.getElementById("quotationForm")["Phone Number"].value = "+60" + phoneRaw;
+    document.getElementById("status").innerText = "⏳ Submitting...";
  
-    fetch(scriptURL, { method:"POST", body:new FormData(quotationForm) })
+    fetch(currentAgent.scriptURL, { method:"POST", body: new FormData(document.getElementById("quotationForm")) })
     .then(() => {
-      formScreen.style.display = "none";
-      successScreen.style.display = "block";
+      document.getElementById("formScreen").style.display = "none";
+      document.getElementById("successScreen").style.display = "block";
  
       const msg =
-        `Hi Amzar,%0ASaya telah hantar permohonan quotation.%0A` +
+        `Hi ${currentAgent.name},%0ASaya telah hantar permohonan quotation.%0A` +
         `Nama: ${name}%0APelan: ${plan}`;
  
       setTimeout(() => {
-        window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, "_blank");
+        window.open(`https://wa.me/${currentAgent.whatsapp}?text=${msg}`, "_blank");
       }, 800);
     })
     .catch(() => showError("Submission failed. Sila cuba lagi."));
   });
+
+  // Initialize on page load
+  window.addEventListener('load', loadAgents);
 </script>
  
 </body>
