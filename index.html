@@ -178,7 +178,14 @@
       background: #1a1a1a;
       color: #ffffff;
     }
- 
+    
+    textarea.input-box {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.4;
+      resize: none;
+    }
+
     .input-box::placeholder { color: #aaaaaa; }
  
     input[type="date"] {
@@ -198,7 +205,8 @@
       border-radius: 10px;
       margin-bottom: 16px;
     }
- 
+    
+    
     .country-code {
       padding: 14px 12px;
       background: #111;
@@ -385,7 +393,7 @@
  
     <!-- FORM -->
     <div class="card" id="formScreen">
-      <h3>Generate Quotation</h3>
+      <h3>Request Custom Quotation</h3>
  
       <form id="quotationForm">
  
@@ -422,7 +430,16 @@
           <div class="btn-option" onclick="pick(this,'No','Smoker')"><img src="./Icon/no-smoking.png" alt="Non-Smoker"> Non-Smoker</div>
           <div class="btn-option" onclick="pick(this,'Yes','Smoker')"><img src="./Icon/smoking.png" alt="Smoker"> Smoker</div>
         </div>
- 
+        
+        
+        <label>Remarks to Agent (Optional)</label>
+        <textarea 
+          name="Remarks" 
+          class="input-box" 
+          placeholder="Any medical condition, budget range, or special concern?"
+          rows="3"
+        ></textarea>
+
         <input type="hidden" name="Plan">
         <input type="hidden" name="Sex">
         <input type="hidden" name="Smoker">
@@ -606,9 +623,19 @@
       document.getElementById("formScreen").style.display = "none";
       document.getElementById("successScreen").style.display = "block";
  
+      const remarks = document.getElementById("quotationForm")["Remarks"].value.trim();
+
+      
       const msg =
-        `Hi ${currentAgent.name},%0ASaya telah hantar permohonan quotation.%0A` +
-        `Nama: ${name}%0APelan: ${plan}`;
+        `Hi ${currentAgent.name},%0A%0A` +
+        `Saya telah menghantar permohonan *Custom Quotation Takaful*.%0A` +
+        `Butiran adalah seperti berikut:%0A%0A` +
+        `👤 Nama: ${name}%0A` +
+        `📋 Pelan: ${plan}%0A` +
+        `🎂 Tarikh Lahir: ${dob}%0A` +
+        `🚬 Status Merokok: ${smoker}%0A` +
+        (remarks ? `%0A📝 Additional Remarks:%0A${remarks}` : ``);
+
  
       setTimeout(() => {
         window.open(`https://wa.me/${currentAgent.whatsapp}?text=${msg}`, "_blank");
