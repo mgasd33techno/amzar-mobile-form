@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
+
+
   <style>
     * { box-sizing: border-box; }
  
@@ -68,6 +76,23 @@
       font-family: 'Arial Black', 'Helvetica Bold', sans-serif;
     }
 
+    .social-icons {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;                /* space between icons */
+    }
+
+    .social-icons i {
+      font-size: 30px;          /* bigger than before */
+      color: #d4af37;           /* gold */
+    }
+    
+    .social-icons a {
+      text-decoration: none;
+      color: inherit;
+    }
+
     .subtitle-text {
       color: #d4af37;
       font-size: 14px;
@@ -88,6 +113,22 @@
       color: #d4af37;
       margin-bottom: 12px;
       font-size: 20px;
+    }
+
+    .location-text {
+      position: relative;
+      letter-spacing: 10px;
+    }
+
+    .location-text::before,
+    .location-text::after {
+      content: "";
+      display: inline-block;
+      width: 40px;
+      height: 1px;
+      background: rgba(212,175,55,0.6);
+      vertical-align: middle;
+      margin: 0 12px;
     }
  
     .prudential { color: #c8102e; font-weight: bold; }
@@ -141,6 +182,21 @@
       letter-spacing: 0.5px;
       text-shadow: 0 1px 3px rgba(212,175,55,0.3);
       font-style: italic;
+    }
+    
+    .form-title {
+      text-align: center;
+    }
+    
+    .form-subtitle {
+      text-align: center;
+      font-size: 12px;   /* smaller */
+      margin-top: -6px;
+      margin-bottom: 20px;
+      line-height: 1.3;
+
+      color: #dcdcdc;    /* soft silver */
+      opacity: 0.7;      /* subtle */
     }
 
     .subtitle {
@@ -244,8 +300,16 @@
       gap: 8px;
     }
 
-    
+    .btn-option i {
+      font-size: 22px;
+      color: #d4af37;
+      transition: color 0.3s ease;
+    }
         
+    .btn-option.active i {
+      color: #000;
+    }
+
     .btn-option img {
       height: 24px;
       width: 24px;
@@ -367,7 +431,7 @@
   <div class="screen active" id="mainScreen">
     <div class="card center">
       <h1>MUQMEEN GROUP</h1>
-      <p class="subtitle-text">ALOR SETAR</p>
+      <p class="subtitle-text location-text">ALOR SETAR</p>
       <img class="mg-logo" src="./Picture/MGlogo.jpg" alt="MG Logo">
     </div>
 
@@ -389,18 +453,46 @@
         <span class="bsn">BSN</span>
         Takaful Advisor
       </p>
+      <div class="social-icons">
+        <a id="igLink" target="_blank" aria-label="Instagram">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+
+        <a id="fbLink" target="_blank" aria-label="Facebook">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+
+        <a id="waLink" target="_blank" aria-label="WhatsApp">
+          <i class="fa-brands fa-whatsapp"></i>
+        </a>
+
+        <a id="ttLink" target="_blank" aria-label="TikTok">
+          <i class="fa-brands fa-tiktok"></i>
+        </a>
+      </div>
     </div>
  
     <!-- FORM -->
     <div class="card" id="formScreen">
-      <h3>Request Custom Quotation</h3>
- 
+      <h3 class="form-title">Request Custom Quotation</h3>
+      <p class="form-subtitle">
+        Get your personalised takaful quotation from your Takaful Hero
+        tailored to your needs and lifestyle.
+      </p>
+
       <form id="quotationForm">
  
         <label>Plan</label>
         <div class="btn-group">
-          <div class="btn-option" onclick="pick(this,'Medical','Plan')"><img src="./Icon/medical.png" alt="Medical"> Medical</div>
-          <div class="btn-option" onclick="pick(this,'Hibah','Plan')"><img src="./Icon/hibah.png" alt="Hibah"> Hibah</div>
+          <div class="btn-option" onclick="pick(this,'Medical','Plan')">
+            <i class="fa-solid fa-heart-pulse"></i>
+            Medical
+          </div>
+
+          <div class="btn-option" onclick="pick(this,'Hibah','Plan')">
+            <i class="fa-solid fa-people-roof"></i>
+            Hibah
+          </div>
         </div>
  
         <label>Full Name</label>
@@ -421,8 +513,14 @@
  
         <label>Gender</label>
         <div class="btn-group">
-          <div class="btn-option" onclick="pick(this,'Male','Sex')"><img src="./Icon/male.png" alt="Male"> Male</div>
-          <div class="btn-option" onclick="pick(this,'Female','Sex')"><img src="./Icon/female.png" alt="Female"> Female</div>
+          <div class="btn-option" onclick="pick(this,'Male','Sex')">
+            <i class="fa-solid fa-person"></i>
+            Male
+          </div>
+          <div class="btn-option" onclick="pick(this,'Female','Sex')">
+            <i class="fa-solid fa-person-dress"></i>
+            Female
+          </div>
         </div>
  
         <label>Smoking Status</label>
@@ -548,6 +646,12 @@
     document.getElementById('agentDisplayTitle').textContent = agent.title;
     document.getElementById('agentCodeField').value = agent.code;
     
+  // ✅ SOCIAL LINKS (PUT HERE)
+    setSocialLink("igLink", agent.instagram, "https://instagram.com/");
+    setSocialLink("fbLink", agent.facebook, "https://facebook.com/");
+    setSocialLink("waLink", agent.whatsapp, "https://wa.me/");
+    setSocialLink("ttLink", agent.tiktok, "https://www.tiktok.com/@");
+
     // Update URL hash with agent code
     if (!isDirectLink) {
       window.location.hash = agent.code;
@@ -559,6 +663,17 @@
     
     showScreen('profileScreen');
   }
+
+  function setSocialLink(elementId, value, baseUrl) {
+  const el = document.getElementById(elementId);
+
+  if (value) {
+    el.href = baseUrl + value;
+    el.style.display = "inline-flex";
+  } else {
+    el.style.display = "none";
+  }
+}
 
   function goBack() {
     window.location.hash = '';
